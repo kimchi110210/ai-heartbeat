@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI 연애 시뮬레이션 - 메인 화면</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  --panel:#37303f;--panel-edge:#b03d2e;--panel-edge-dark:#7c2a22;--text:#f4f1ff;--dim:#8d879b;--splash:#f0e48a;
+  --logo-fill:#44668f;--logo-line:#7a2430;--logo-drop:#4a1822}
+*,*::before,*::after{box-sizing:inherit}
+html,body{height:100%;margin:0;background:#1d1b28;color-scheme:dark}
+body{display:flex;align-items:center;justify-content:center;overflow:hidden;font-family:'DotGothic16','Galmuri11','NeoDunggeunmo','Malgun Gothic',sans-serif}
+.stage{position:relative;width:min(100vw,calc(100vh * 16 / 9));aspect-ratio:16/9;container-type:size;overflow:hidden;image-rendering:pixelated;
+  background:linear-gradient(to bottom,
+    #8a9bc8 0 6%,#6f84b8 6% 8%,#a3b6e0 8% 10%,#8a9bc8 10% 12%,#a3b6e0 12% 22%,#cfd6f2 22% 24%,#dfe3f8 24% 28%,
+    #b5c9c9 28% 30%,#8aacc0 30% 40%,#b9cdd0 40% 42%,#8aacc0 42% 44%,#a9c4c6 44% 47%,#e5cfa5 47% 50%,#a9c4c6 50% 52%,
+    #e5cfa5 52% 56%,#a9c4c6 56% 58%,#e5cfa5 58% 72%,#b7c5a5 72% 100%)}
+.logo{position:absolute;left:25%;top:5%;margin:0;font-family:'Press Start 2P',monospace;font-weight:400;font-size:7.6cqw;line-height:1;white-space:nowrap;
+  color:var(--logo-fill);-webkit-text-stroke:.7cqw var(--logo-line);paint-order:stroke fill;text-shadow:0 .8cqw 0 var(--logo-drop);letter-spacing:.2cqw}
+.logo small{display:block;font-size:3cqw;margin-top:1.4cqw;letter-spacing:1.2cqw;-webkit-text-stroke-width:.4cqw}
+.version{position:absolute;left:27%;top:30%;font-size:2cqw;color:#e6e6a8;opacity:.9}
+.splash{position:absolute;left:47%;top:29%;width:46cqw;text-align:center;font-size:2.7cqw;color:var(--splash);transform-origin:center;transform:rotate(-17deg);
+  animation:pulse 1.2s ease-in-out infinite;text-shadow:.2cqw .2cqw 0 rgba(90,80,40,.55);pointer-events:none}
+@keyframes pulse{0%,100%{transform:rotate(-17deg) scale(1)}50%{transform:rotate(-17deg) scale(1.06)}}
+.status{position:absolute;right:.3cqw;text-align:right;font-size:2.1cqw;color:#fff;text-shadow:.2cqw .2cqw 0 rgba(40,40,70,.5);white-space:nowrap}
+.status.a{top:35%}.status.b{top:42%}
+.menu{position:absolute;right:0;bottom:0;width:25.5cqw;margin:0;padding:1.6cqw 1.2cqw 1.6cqw 1.8cqw;list-style:none;background:var(--panel);
+  border:.55cqw solid var(--panel-edge);border-right:0;border-bottom:0;border-radius:1.2cqw 0 0 0;box-shadow:inset 0 0 0 .35cqw var(--panel-edge-dark)}
+.menu li{position:relative;padding:.9cqw 0 .9cqw 2.6cqw;font-size:3.6cqw;line-height:1.15;color:var(--text);cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent}
+.menu li[aria-disabled="true"]{color:var(--dim);cursor:default}
+.menu li.sel::before{content:"";position:absolute;left:.2cqw;top:50%;width:0;height:0;margin-top:-1.3cqw;border-left:1.9cqw solid #fff;border-top:1.3cqw solid transparent;border-bottom:1.3cqw solid transparent}
+.menu li:focus-visible{outline:.3cqw dashed var(--splash);outline-offset:-.3cqw}
+.toast{position:absolute;left:50%;bottom:4cqw;transform:translateX(-50%);padding:1cqw 2.4cqw;font-size:2.4cqw;color:var(--text);background:var(--panel);
+  border:.4cqw solid var(--panel-edge);opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.show{opacity:1}
+@media (prefers-reduced-motion:reduce){.splash{animation:none}.toast{transition:none}}
+</style>
+</head>
+<body>
+<main class="stage" id="stage">
+  <h1 class="logo">AI LOVE<small>SIM</small></h1>
+  <div class="version" id="version">v0.1.0</div>
+  <div class="splash" id="splash"></div>
+  <div class="status a" id="statusA"></div>
+  <div class="status b">현재 로그인됨: 게스트</div>
+  <ul class="menu" id="menu" role="menu" aria-label="메인 메뉴"></ul>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</main>
+<script>
+(function(){
+  var SAVE_KEY='ai-love-sim:save';
+  var SPLASHES=['호감도는 숫자가 아니라 마음이에요','선택지를 신중하게 고르세요','전투에서 져도 괜찮을지도?','AI도 설렘을 느낄까요?','저장은 필수!','오늘의 호감도는 몇일까요?'];
+  var hasSave=false;
+  try{hasSave=!!localStorage.getItem(SAVE_KEY);}catch(e){}
+
+  // 각 항목의 실제 동작은 여기에 연결하면 됩니다.
+  var items=[
+    {label:'계속하기',disabled:!hasSave,run:function(){toast('이어하기: 준비 중입니다');}},
+    {label:'새 게임',run:function(){location.href='battle.html';}},
+    {label:'불러오기',run:function(){toast('불러오기: 준비 중입니다');}},
+    {label:'플레이 이력',run:function(){toast('플레이 이력: 준비 중입니다');}},
+    {label:'메뉴',run:function(){toast('설정 메뉴: 준비 중입니다');}}
+  ];
+  var menu=document.getElementById('menu'),toastEl=document.getElementById('toast'),timer,sel=hasSave?0:1;
+
+  document.getElementById('splash').textContent=SPLASHES[Math.floor(Math.random()*SPLASHES.length)];
+
+  items.forEach(function(it,i){
+    var li=document.createElement('li');
+    li.textContent=it.label;li.setAttribute('role','menuitem');li.tabIndex=-1;
+    if(it.disabled)li.setAttribute('aria-disabled','true');
+    li.addEventListener('mouseenter',function(){if(!it.disabled)select(i);});
+    li.addEventListener('click',function(){if(!it.disabled){select(i);it.run();}});
+    menu.appendChild(li);
+  });
+
+  function select(i){
+    sel=i;
+    Array.prototype.forEach.call(menu.children,function(li,k){li.classList.toggle('sel',k===i);});
+  }
+  function move(d){
+    var n=items.length,i=sel;
+    do{i=(i+d+n)%n;}while(items[i].disabled);
+    select(i);
+  }
+  function toast(msg){
+    toastEl.textContent=msg;toastEl.classList.add('show');
+    clearTimeout(timer);timer=setTimeout(function(){toastEl.classList.remove('show');},1600);
+  }
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowUp'){e.preventDefault();move(-1);}
+    else if(e.key==='ArrowDown'){e.preventDefault();move(1);}
+    else if(e.key==='Enter'||e.key===' '||e.key==='z'||e.key==='Z'){e.preventDefault();items[sel].run();}
+  });
+  select(sel);
+})();
+</script>
+</body>
+</html>
