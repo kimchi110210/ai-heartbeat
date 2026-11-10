@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI 연애 시뮬레이션</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:dark;
+  --panel:#37303f;--edge:#b03d2e;--edge-dark:#7c2a22;--text:#f4f1ff;--accent:#f0e48a}
+*,*::before,*::after{box-sizing:inherit}
+[hidden]{display:none!important}
+html,body{height:100%;margin:0;background:#1d1b28}
+body{display:flex;align-items:center;justify-content:center;overflow:hidden;font-family:'DotGothic16','Malgun Gothic',sans-serif;color:var(--text)}
+.stage{position:relative;width:min(100vw,calc(100vh * 16 / 9));aspect-ratio:16/9;container-type:size;overflow:hidden;cursor:pointer;user-select:none;
+  background:linear-gradient(#8a9bc8,#a3b6e0 40%,#e5cfa5 70%,#b7c5a5)}
+.bg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity .6s}
+.bg.on{opacity:1}
+.sprite{position:absolute;left:50%;bottom:0;height:90cqh;max-width:none;transform:translateX(-50%);opacity:0;transition:opacity .4s;pointer-events:none}
+.sprite.on{opacity:1}
+.panel{background:var(--panel);border:.55cqw solid var(--edge);box-shadow:inset 0 0 0 .35cqw var(--edge-dark);border-radius:1.2cqw}
+.dialog{position:absolute;left:3cqw;right:3cqw;bottom:3cqh;height:27cqh;padding:3.2cqh 3cqw}
+.name{position:absolute;left:2cqw;top:-5.6cqh;padding:.8cqh 2.4cqw;font-size:2.7cqw}
+#text{height:100%;overflow:hidden;font-size:3.1cqw;line-height:1.55;white-space:pre-wrap}
+.next{position:absolute;right:2cqw;bottom:1.2cqh;font-size:2.4cqw;color:var(--accent);opacity:0}
+.next.on{opacity:1;animation:blink .9s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+.choices{position:absolute;left:0;right:0;top:0;bottom:33cqh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2cqh}
+.choice{min-width:50cqw;max-width:82cqw;padding:1.8cqh 3cqw;font:inherit;font-size:3cqw;text-align:left;color:var(--text);cursor:pointer;
+  background:var(--panel);border:.5cqw solid var(--edge);border-radius:1cqw}
+.choice:hover,.choice:focus-visible{border-color:var(--accent);outline:none}
+.menu-btn{position:absolute;right:2cqw;top:2cqh;padding:.8cqh 1.8cqw;font:inherit;font-size:2.2cqw;color:var(--text);cursor:pointer;
+  background:rgba(55,48,63,.88);border:.35cqw solid var(--edge);border-radius:1cqw}
+.nameinput{position:absolute;left:50%;top:40%;transform:translate(-50%,-50%);width:54cqw;padding:3.5cqh 3cqw;display:flex;flex-direction:column;align-items:center;gap:2.4cqh;cursor:default}
+.nameinput p{margin:0;font-size:3cqw;text-align:center}
+.nameinput input{width:100%;padding:1.2cqh 1.5cqw;font:inherit;font-size:3.4cqw;text-align:center;color:var(--text);background:#1d1b28;border:.4cqw solid var(--edge);border-radius:1cqw;outline:none}
+.nameinput input:focus{border-color:var(--accent)}
+.nameinput .choice{min-width:16cqw;text-align:center}
+.battle{position:absolute;inset:0;width:100%;height:100%;z-index:20;background:#000;cursor:default}
+.ending{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3cqh;text-align:center;cursor:default;background:rgba(20,18,30,.9)}
+.ending h2{margin:0;font-size:6cqw;font-weight:400;color:var(--accent)}
+.ending p{margin:0;font-size:3cqw}
+.ending .choice{min-width:30cqw;text-align:center}
+@media (prefers-reduced-motion:reduce){.bg,.sprite{transition:none}.next.on}
+</style>
+</head>
+<body>
+<main class="stage" id="stage">
+  <div class="bg" id="bg0"></div>
+  <div class="bg" id="bg1"></div>
+  <img class="sprite" id="sprite" alt="">
+  <button class="menu-btn" id="menuBtn" type="button">메인</button>
+  <div class="choices" id="choices" hidden></div>
+  <div class="dialog panel" id="dialog" aria-live="polite">
+    <div class="name panel" id="name" hidden></div>
+    <div id="text"></div>
+    <div class="next" id="next">▼</div>
+  </div>
+  <div class="nameinput panel" id="nameBox" hidden>
+    <p id="namePrompt"></p>
+    <input id="nameInput" type="text" maxlength="8" autocomplete="off" aria-label="이름 입력">
+    <button class="choice" id="nameOk" type="button">확인</button>
+  </div>
+  <div class="ending" id="ending" hidden>
+    <h2 id="endTitle"></h2>
+    <p id="endInfo"></p>
+    <button class="choice" id="restartBtn" type="button">처음부터</button>
+    <button class="choice" id="homeBtn" type="button">메인 화면으로</button>
+  </div>
+  <canvas class="battle" id="battleCanvas" width="1920" height="1080" hidden></canvas>
+</main>
+<script src="js/scenes.js"></script>
+<script src="js/battle.js"></script>
+<script src="js/engine.js"></script>
+</body>
+</html>
