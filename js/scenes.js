@@ -48,7 +48,6 @@ var CHARACTERS = {
                 faces: { }                    // 표정 추가 예: smile: 'assets/character_smile.png'
     } ,
 };
-
 var SCENES = {
   intro: {
     bg: 'classroom',
@@ -88,5 +87,4 @@ var SCENES = {
 
   ending_good:   { bg: 'cafe', steps: [{ who: 'J', text: '(좋은 엔딩 대사)' }], ending: '좋은 엔딩' },
   ending_normal: { bg: 'room', steps: [{ who: 'J', text: '(보통 엔딩 대사)' }], ending: '보통 엔딩' }
-};'heroine', text: '(보통 엔딩 대사)' }], ending: '보통 엔딩' }
 };
