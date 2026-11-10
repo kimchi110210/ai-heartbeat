@@ -24,8 +24,8 @@
 var START_SCENE = 'intro';       // 새 게임을 누르면 처음 시작하는 장면
 
 var BACKGROUNDS = {              // 이름: '이미지 경로'  (파일이 없으면 기본 배경색으로 보입니다)
-  classroom: 'assets/backgrounds/classroom.jpg',
-  park:   'assets/backgrounds/park.jpg',
+  classroom: 'assets/backgrounds/classroom.png',
+  park:   'assets/backgrounds/park.png',
   cafeteria:    'assets/backgrounds/street.jpg',
   cafe:      'assets/backgrounds/cafe.jpg',
   room:      'assets/backgrounds/room.jpg'
