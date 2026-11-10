@@ -50,46 +50,43 @@ var CHARACTERS = {
 };
 
 var SCENES = {
-    intro: {
-        bg: 'classroom',
-        show: null,
-        steps: [
-            { text: '드디어 고등학교에 입학하게 되었어.. 어떤 인연들을 만나게 될까?' }
-        ],
-        next: 'school'
-    },
+  intro: {
+    bg: 'classroom',
+    show: null,
+    steps: [
+      { text: '드디어 고등학교에 입학하게 되었어.. 어떤 인연들을 만나게 될까?' }
+    ],
+    next: 'school'
+  },
 
-    school: {
-        show: 'M',
-        steps: [
-            { who: 'M', text: '어? {name:아}~ 오랜만이야~ 우리 같은 반이었구나~!' },
-            { who: 'M', text: '그나저나 나 할 말이 있는데...' },
-            { who: 'A', text: ' {name}! 밖에서 누가 너 불러.' }
-
-        ],
-        next: ''    // ← 다음 장면을 만들고 그 이름으로 바꾸세요
-    }
-};
-    
+  school: {
+    show: 'M',
+    steps: [
+      { who: 'M', text: '어? {name:아}~ 오랜만이야~ 우리 같은 반이었구나~!' },
+      { who: 'M', text: '그나저나 나 할 말이 있는데...' },
+      { who: 'A', text: '{name}! 밖에서 누가 너 불러.' }
+    ],
+    next: 'talk'
+  },
 
   talk: {
-    bg: 'rooftop',
+    bg: 'park',
+    show: 'J',
     steps: [
-      { who: 'heroine', text: '...그래, 인사는 받아줄게.' }
+      { who: 'J', text: '...그래, 인사는 받아줄게.' }
     ],
-    next: 'check'
+    next: 'ending_normal'
   },
 
   silence: {
-    bg: 'rooftop',
+    bg: 'park',
     steps: [
-        { who: 'heroine', text: '...용건 없으면 가볼게.' } 
+      { who: 'J', text: '...용건 없으면 가볼게.' }
     ],
-    next: ''
-};
+    next: 'ending_normal'
+  },
 
-  
-
-  ending_good:   { bg: 'cafe', steps: [{ who: 'heroine', text: '(좋은 엔딩 대사)' }], ending: '좋은 엔딩' },
-  ending_normal: { bg: 'room', steps: [{ who: 'heroine', text: '(보통 엔딩 대사)' }], ending: '보통 엔딩' }
+  ending_good:   { bg: 'cafe', steps: [{ who: 'J', text: '(좋은 엔딩 대사)' }], ending: '좋은 엔딩' },
+  ending_normal: { bg: 'room', steps: [{ who: 'J', text: '(보통 엔딩 대사)' }], ending: '보통 엔딩' }
+};'heroine', text: '(보통 엔딩 대사)' }], ending: '보통 엔딩' }
 };
