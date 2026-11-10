@@ -72,7 +72,7 @@ var SCENES = {
     bg: 'park',
     show: 'J',
     steps: [
-      { who: 'J', text: '...그래, 인사는 받아줄게.' }
+      { who: 'J', text: '아직 테스트 중' }
     ],
     next: 'ending_normal'
   },
@@ -80,7 +80,7 @@ var SCENES = {
   silence: {
     bg: 'park',
     steps: [
-      { who: 'J', text: '...용건 없으면 가볼게.' }
+      { who: 'J', text: '좀 기다려줘.' }
     ],
     next: 'ending_normal'
   },
