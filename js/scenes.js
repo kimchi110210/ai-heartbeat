@@ -86,5 +86,5 @@ var SCENES = {
   },
 
   ending_good:   { bg: 'cafe', steps: [{ who: 'J', text: '(좋은 엔딩)' }], ending: '좋은 엔딩' },
-  ending_normal: { bg: 'room', steps: [{ who: 'J', text: '(준비중)' }], ending: '보통 엔딩' }
+  ending_normal: { bg: 'room', steps: [{ who: 'J', text: '(준비중)' }], ending: '준비중' }
 };
