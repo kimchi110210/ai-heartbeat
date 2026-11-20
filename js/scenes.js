@@ -43,7 +43,10 @@ var CHARACTERS = {
     image: 'assets/m_normal.png',
     battleImage: 'assets/m_SD.png',    // ← 추가 (전투 화면에서만 이 그림이 나와요)
     faces: {
-       happy : 'assets/m_happy.png'
+       happy_n :'assets/m_happy_normal.png',
+       happy : 'assets/m_happy.png',
+       wedding : 'assets/m_wedding.png'
+       
            }
   },
   J: {
@@ -158,8 +161,18 @@ var SCENES = {
     steps: [
       { who: 'player', text: '이 부분은 아직 준비중이니 다른 선택지를~' }
     ],
-    next: 'lunch_back'
+    next: 'another'
   },
+   another: {
+    bg: 'cafeteria',
+    show: null,
+    steps: [
+      { text: '(시간은 흘러 어느새 점심시간이 되었다.)' }
+    ]
+    choices: [
+      { text: '지혜야..미안. 나 미나랑 먹을게.', next: 'lunch_mina' },
+      { text: '미나야..미안. 나 지혜랑 먹을게.', next: 'lunch_jihye' },
+      { text: '둘 다 꺼져.',                      next: 'both_1' }
    lunch_mina: {
     show: 'M',
     steps: [
@@ -178,7 +191,7 @@ var SCENES = {
 
   mina_yes: {
     steps: [
-      { who: 'M',  text: '응! (볼 발그레) 좋아...' }
+      { who: 'M', face : 'happy_n' , text: '응! (볼 발그레) 좋아...' }
     ],
     next: 'date_park'
   },
@@ -238,7 +251,7 @@ var SCENES = {
       { text: '(다음날 아침)' },
       { text: '(아무도 없는 교실 안. 미나가 기다리고 있다.)' },
       { who: 'player', text: '미나야.. 그래서 할 말이 뭐야?' },
-      { who: 'M', text: '{name}.. 사실 나 AI야.. 그리고 나 너 좋아해....AI가 이런 말 하는 거.. 웃기지?' }
+      { who: 'M', face : 'happy_n' ,  text: '{name}.. 사실 나 AI야.. 그리고 나 너 좋아해....AI가 이런 말 하는 거.. 웃기지?' }
     ],
     choices: [
       { text: '응 웃겨.ㅋㅋ', next: 'confess' },
@@ -250,7 +263,7 @@ var SCENES = {
   confess: {
     steps: [
       { who: 'player', text: '무슨 소리야.. 나도 너 좋아해. 너가 어떤 존재든.. 그게 AI든.. 난 널 좋아해.' },
-      { who: 'M', face: 'happy', text: '진짜야..? 진짜.. 진짜 고마워..!' },
+      { who: 'M',  face : 'happy_n' ,  text: '진짜야..? 진짜.. 진짜 고마워..!' },
       { text: '(시간이 흘러)' }
     ],
     next: 'wedding'
@@ -262,11 +275,11 @@ var SCENES = {
     show: 'M',
     steps: [
       { text: '(결혼식장)' },
-      { who: 'M', face: 'happy', text: '{name}.. 너 덕분에 내 감정이 생겼어.. 진짜 고마워!' },
+      { who: 'M', face: 'wedding', text: '{name}.. 너 덕분에 내 감정이 생겼어.. 진짜 고마워!' },
       { who: 'player', text: '무슨 소리야! 서로 용기를 냈기에 이렇게 된 건데..!' },
-      { who: 'M', face: 'happy', text: '하핫! 그럼 지금 내가 어떤 감정을 느끼고 있게~!' },
+      { who: 'M', face: 'wedding', text: '하핫! 그럼 지금 내가 어떤 감정을 느끼고 있게~!' },
       { who: 'player', text: '어떤 감정인데?' },
-      { who: 'M', face: 'happy', text: '진정한 사랑과 행복!' }
+      { who: 'M', face: 'wedding', text: '진정한 사랑과 행복!' }
     ],
     ending: '해피 엔딩'
   }}
