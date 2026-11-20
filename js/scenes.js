@@ -154,7 +154,13 @@ var SCENES = {
 
   /* ---------- 점심 이후 (아직 대본이 없어 임시로 비워둠) ---------- */
     /* ---------- 점심 이후: 미나를 선택한 루트 ---------- */
-  lunch_mina: {
+  lunch_jihye: {
+    steps: [
+      { who: 'player', text: '이 부분은 아직 준비중이니 다른 선택지를~' }
+    ],
+    next: 'lunch_back'
+  },
+   lunch_mina: {
     show: 'M',
     steps: [
       { who: 'M', face: 'happy', text: '역시! 넌 날 선택할 줄 알았어!' },
