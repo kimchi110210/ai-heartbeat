@@ -153,16 +153,114 @@ var SCENES = {
   },
 
   /* ---------- 점심 이후 (아직 대본이 없어 임시로 비워둠) ---------- */
+    /* ---------- 점심 이후: 미나를 선택한 루트 ---------- */
   lunch_mina: {
     show: 'M',
-    steps: [ { text: '(여기에 미나와 점심을 먹는 이야기를 이어서 작성하세요)' } ],
-    next: 'ending_normal'
-  },
-  lunch_jihye: {
-    show: 'J',
-    steps: [ { text: '(여기에 지혜와 점심을 먹는 이야기를 이어서 작성하세요)' } ],
-    next: 'ending_normal'
+    steps: [
+      { who: 'M', face: 'happy', text: '역시! 넌 날 선택할 줄 알았어!' },
+      { who: 'J', show: 'J', text: '........' },
+      { text: '(같이 밥을 먹게 된 둘)' },
+      { who: 'M', show: 'M', text: '{name}.. 나 할 말이 있는데..' },
+      { who: 'player', text: '응? 뭔데?' },
+      { who: 'M', text: '혹시.. 내일 토요일에.. 같이 놀래?' }
+    ],
+    choices: [
+      { text: '응! 좋아. 그러자.', next: 'mina_yes' },
+      { text: '아니 꺼져.', battle: { enemy: 'M' } }          // 미나와 전투 (이기면 이 선택지로 복귀, 지면 게임 오버)
+    ]
   },
 
-  ending_normal: { bg: 'room', show: null, steps: [{ text: '(준비중)' }], ending: '준비중' }
-};
+  mina_yes: {
+    steps: [
+      { who: 'M',  text: '응! (볼 발그레) 좋아...' }
+    ],
+    next: 'date_park'
+  },
+
+  /* ---------- 토요일 데이트 ---------- */
+  date_park: {
+    bg: 'park',
+    show: null,
+    steps: [
+      { text: '(다음날. 공원)' },
+      { who: 'player', text: '언제 오지..?' },
+      { who: 'M', face: 'happy', show: 'M', text: '(사복 모습) 많이.. 기다렸어?' },
+      { who: 'player', text: '아, 아니야! 너.. 되게 예쁘다..' },
+      { who: 'M', face: 'happy', text: '고, 고마워 (볼 발그레)' },
+      { text: '(우리는 즐거운 데이트를 하였다.)' },
+      { who: 'M', face: 'happy', text: '오늘 진짜 재밌었어.. {name}.. 내일 7시까지 학교에 올 수 있어?' },
+      { who: 'player', text: '그렇게 일찍? 할 말이 뭔데?' },
+      { who: 'M', face: 'happy', text: '그건.. 그때 알려줄게..' },
+      { who: 'player', text: '응, 알았어! 7시까지 갈게!' }
+    ],
+    next: 'jihye_home'
+  },
+
+  /* ---------- 집 앞의 지혜 ---------- */
+  jihye_home: {
+    // bg: 'home',   ← 집 앞 배경 이미지가 생기면 BACKGROUNDS 에 등록하고 이 줄의 주석을 푸세요
+    show: null,
+    steps: [
+      { text: '(집으로 돌아가던 {name}. 그런데 집 앞에 누군가 서 있었다.)' },
+      { text: '(집 앞에서 대기를 타던 지혜)' },
+      { who: 'J', show: 'J', text: '{name}... 재밌었어?' },
+      { who: 'player', text: '우리 집을 어떻게 안 거야?!' },
+      { who: 'J', text: '그런 건 몰라도 돼.. {name}.. 나 너 좋아해.❤️ 나랑 만나줘..' }
+    ],
+    choices: [
+      { text: '뭐래. 내가 너 따위를 만날 거 같아?', battle: { enemy: 'J' } },   // 지혜와 전투
+      { text: '(경찰에 신고했다.)', next: 'police' },
+      { text: '미안.. 난 너 못 만날 것 같아..', battle: { enemy: 'J' } }        // 지혜와 전투
+    ]
+  },
+
+  police: {
+    steps: [
+      { text: '(삐용삐용)' },
+      { who: 'J', text: '{name}..! 어떻게 이럴 수 있어!!!' },
+      { who: 'player', text: '여태까지 날 스토킹했다니..!' },
+      { show: null, text: '(지혜는 잡혀가 버렸다.)' }
+    ],
+    next: 'morning'
+  },
+
+  /* ---------- 다음날 아침, 교실 ---------- */
+  morning: {
+    bg: 'classroom',
+    show: 'M',
+    steps: [
+      { text: '(다음날 아침)' },
+      { text: '(아무도 없는 교실 안. 미나가 기다리고 있다.)' },
+      { who: 'player', text: '미나야.. 그래서 할 말이 뭐야?' },
+      { who: 'M', text: '{name}.. 사실 나 AI야.. 그리고 나 너 좋아해....AI가 이런 말 하는 거.. 웃기지?' }
+    ],
+    choices: [
+      { text: '응 웃겨.ㅋㅋ', next: 'confess' },
+      { text: '무슨 소리야..나도 너 좋아해', next: 'confess' }
+    ]
+  },
+
+  
+  confess: {
+    steps: [
+      { who: 'player', text: '무슨 소리야.. 나도 너 좋아해. 너가 어떤 존재든.. 그게 AI든.. 난 널 좋아해.' },
+      { who: 'M', face: 'happy', text: '진짜야..? 진짜.. 진짜 고마워..!' },
+      { text: '(시간이 흘러)' }
+    ],
+    next: 'wedding'
+  },
+
+  /* ---------- 결혼식장 ---------- */
+  wedding: {
+    bg: 'wedding',
+    show: 'M',
+    steps: [
+      { text: '(결혼식장)' },
+      { who: 'M', face: 'happy', text: '{name}.. 너 덕분에 내 감정이 생겼어.. 진짜 고마워!' },
+      { who: 'player', text: '무슨 소리야! 서로 용기를 냈기에 이렇게 된 건데..!' },
+      { who: 'M', face: 'happy', text: '하핫! 그럼 지금 내가 어떤 감정을 느끼고 있게~!' },
+      { who: 'player', text: '어떤 감정인데?' },
+      { who: 'M', face: 'happy', text: '진정한 사랑과 행복!' }
+    ],
+    ending: '해피 엔딩'
+  },
