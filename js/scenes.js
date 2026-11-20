@@ -168,7 +168,7 @@ var SCENES = {
     show: null,
     steps: [
       { text: '(시간은 흘러 어느새 점심시간이 되었다.)' }
-    ]
+    ],
     choices: [
       { text: '지혜야..미안. 나 미나랑 먹을게.', next: 'lunch_mina' },
       { text: '미나야..미안. 나 지혜랑 먹을게.', next: 'lunch_jihye' },
