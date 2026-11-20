@@ -173,6 +173,8 @@ var SCENES = {
       { text: '지혜야..미안. 나 미나랑 먹을게.', next: 'lunch_mina' },
       { text: '미나야..미안. 나 지혜랑 먹을게.', next: 'lunch_jihye' },
       { text: '둘 다 꺼져.',                      next: 'both_1' }
+       ]
+  },
    lunch_mina: {
     show: 'M',
     steps: [
