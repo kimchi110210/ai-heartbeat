@@ -42,7 +42,9 @@ var CHARACTERS = {
     name: '미나',
     image: 'assets/m_normal.png',
     battleImage: 'assets/m_SD.png',    // ← 추가 (전투 화면에서만 이 그림이 나와요)
-    faces: {}
+    faces: {
+       happy : 'assets/m_happy.png'
+           }
   },
   J: {
     name: '지혜',
