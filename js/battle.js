@@ -7,7 +7,7 @@
   var cv=null,ctx=null,opts={},raf=0,running=false,last=0,resultAt=0;
   var W=960,H=540,FONT="'DotGothic16','Malgun Gothic',sans-serif";
   var BOX={x:330,y:200,w:300,h:200,b:5};
-  var MAXHP=20,DURATION=40,SPEED=175,HIT=4.5,DMG=4,INVULN=0.9;
+  var MAXHP=25,DURATION=40,SPEED=175,HIT=4.5,DMG=4,INVULN=0.9;
 
   // 제공해주신 하트 이미지를 16x16 픽셀 격자로 옮긴 것
   var HEART=[
