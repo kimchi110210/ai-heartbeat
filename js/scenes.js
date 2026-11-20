@@ -263,4 +263,4 @@ var SCENES = {
       { who: 'M', face: 'happy', text: '진정한 사랑과 행복!' }
     ],
     ending: '해피 엔딩'
-  },
+  }}
