@@ -223,7 +223,7 @@
 
     if(state==='play'){
       var left=Math.max(0,Math.ceil(DURATION-t));
-      text('남은 시간 '+left+'초',BOX.x+BOX.w,BOX.y+BOX.h+26,16,'#aaa','right');
+      text('     남은 시간 '+left+'초',BOX.x+BOX.w,BOX.y+BOX.h+26,16,'#aaa','right');
     }
 
     if(state==='won'||state==='lost'){
