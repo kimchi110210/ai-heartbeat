@@ -34,21 +34,23 @@ var BACKGROUNDS = {              // 이름: '이미지 경로'  (파일이 없�
   park:      'assets/backgrounds/park.png',
   cafeteria: 'assets/backgrounds/cafeteria.png',
   hallway:   'assets/backgrounds/hall.png',
-  room:      'assets/backgrounds/room.jpg'
+  wedding:      'assets/backgrounds/wedding.png'
 };
 
 var CHARACTERS = {
   M: {
-    name: '미나',                 // 이름표에 표시될 이름
+    name: '미나',
     image: 'assets/m_normal.png',
-    faces: {}                    // 표정 추가 예: smile: 'assets/m_smile.png'
+    battleImage: 'assets/m_SD.png',    // ← 추가 (전투 화면에서만 이 그림이 나와요)
+    faces: {}
   },
   J: {
     name: '지혜',
-    image: 'assets/j_normal.png'
+    image: 'assets/j_normal.png',
+    battleImage: 'assets/j_SD.png'     // ← 추가 (윗줄 끝에 쉼표 잊지 마세요)
   },
   A: {
-    name: '학생 A',               // 그림이 없는 엑스트라는 image: null
+    name: '학생 A',
     image: null
   }
 };
